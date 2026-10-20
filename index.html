@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>SUFO Security - ochrona osób i mienia, Wejherowo (wizualizacja)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{
+  --zielen:#3f6a3f; --zielen-c:#1d3320; --noc:#0c140e; --noc2:#132017;
+  --czerwien:#d7191f; --czerwien-c:#b01218;
+  --tekst:#1b221d; --szary:#5d6760; --jasny:#f3f5f2; --linia:#dfe5df;
+  --ease:cubic-bezier(.23,1,.32,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--tekst);background:#fff;line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{width:min(1180px,100% - 40px);margin:0 auto}
+h1,h2,h3{font-family:Oswald,Impact,sans-serif;font-weight:600;letter-spacing:.2px;line-height:1.08;margin:0}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:6px;font-weight:600;text-decoration:none;border:0;cursor:pointer;font-size:15px;transition:transform .16s var(--ease),background-color .2s ease}
+.btn:active{transform:scale(.97)}
+.btn-red{background:var(--czerwien);color:#fff}
+.btn-red:hover{background:var(--czerwien-c)}
+.btn-line{border:1.5px solid rgba(255,255,255,.45);color:#fff}
+.btn-line:hover{background:rgba(255,255,255,.08)}
+.ico{width:18px;height:18px;flex:0 0 18px}
+
+/* pasek alarmowy */
+.alarm{background:var(--noc);color:#cfd8d0;font-size:13px}
+.alarm .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:8px 0}
+.alarm b{color:#fff}
+.puls{display:inline-block;width:8px;height:8px;border-radius:50%;background:#2fd36a;margin-right:8px;box-shadow:0 0 0 0 rgba(47,211,106,.6);animation:puls 2s infinite}
+@keyframes puls{0%{box-shadow:0 0 0 0 rgba(47,211,106,.55)}70%{box-shadow:0 0 0 9px rgba(47,211,106,0)}100%{box-shadow:0 0 0 0 rgba(47,211,106,0)}}
+.alarm a{text-decoration:none}
+
+/* naglowek */
+header{position:sticky;top:0;z-index:50;background:rgba(12,20,14,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.07)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo img{height:44px;width:auto;border-radius:3px}
+nav{display:flex;gap:26px}
+nav a{color:#d6ddd6;text-decoration:none;font-size:14.5px;font-weight:500}
+nav a:hover{color:#fff}
+.tel-head{display:flex;align-items:center;gap:8px;background:var(--czerwien);color:#fff;text-decoration:none;padding:11px 16px;border-radius:6px;font-weight:700;font-size:15px;white-space:nowrap}
+
+/* hero */
+.hero{background:radial-gradient(1200px 600px at 80% 0%,#244a2b 0%,transparent 60%),linear-gradient(180deg,var(--noc2),var(--noc));color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;mask-image:linear-gradient(180deg,#000,transparent 90%)}
+.hero .wrap{display:grid;grid-template-columns:1.02fr 1fr;gap:44px;align-items:center;padding:70px 0 80px;position:relative;z-index:1}
+.znacznik{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:1.6px;text-transform:uppercase;color:#9fd0a4;font-weight:600;margin-bottom:18px}
+.znacznik::before{content:"";width:26px;height:2px;background:var(--czerwien)}
+.hero h1{font-size:clamp(38px,5vw,62px);text-transform:uppercase}
+.hero h1 span{color:var(--czerwien)}
+.hero p.lead{font-size:18px;color:#c9d3ca;max-width:540px;margin:20px 0 28px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px}
+.fakty{display:flex;gap:30px;margin-top:38px;flex-wrap:wrap}
+.fakty div{border-left:2px solid rgba(255,255,255,.15);padding-left:14px}
+.fakty b{display:block;font-family:Oswald,sans-serif;font-size:26px;font-weight:600;color:#fff;line-height:1.1}
+.fakty span{font-size:12.5px;color:#a8b4aa}
+
+/* karta dojazdu */
+.dojazd{background:#fff;color:var(--tekst);border-radius:12px;overflow:hidden;box-shadow:0 30px 70px -20px rgba(0,0,0,.6)}
+.dojazd-g{padding:20px 22px 16px}
+.dojazd-g h2{font-size:24px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.dojazd-g h2 i{display:inline-block;width:10px;height:10px;background:var(--czerwien);border-radius:50%}
+.dojazd-g p{margin:6px 0 14px;color:var(--szary);font-size:14px}
+.szukaj{display:flex;gap:8px}
+.szukaj input{flex:1;min-width:0;border:1.5px solid var(--linia);border-radius:7px;padding:12px 14px;font:inherit;font-size:15px}
+.szukaj input:focus{outline:none;border-color:var(--zielen)}
+.szukaj button{background:var(--zielen-c);color:#fff;border:0;border-radius:7px;padding:0 18px;font-weight:600;font:inherit;font-weight:600;cursor:pointer;transition:transform .16s var(--ease)}
+.szukaj button:active{transform:scale(.97)}
+.podp{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.podp button{background:var(--jasny);border:1px solid var(--linia);border-radius:20px;padding:5px 11px;font:inherit;font-size:12.5px;color:var(--szary);cursor:pointer}
+.podp button:hover{color:var(--tekst);border-color:#c7d0c7}
+#mapa{height:290px;background:#1a221c}
+#mapa .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) saturate(.35) brightness(.9) contrast(1.05)}
+.wynik{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 22px;background:var(--noc2);color:#fff;min-height:68px}
+.wynik .min{font-family:Oswald,sans-serif;font-size:34px;font-weight:600;line-height:1}
+.wynik .min small{font-size:16px;color:#9fd0a4;margin-left:4px}
+.wynik .opis{font-size:12.5px;color:#a9b5ab;text-align:right;max-width:58%}
+.baza-ikona{width:18px;height:18px;border-radius:50%;background:var(--czerwien);border:3px solid #fff;box-shadow:0 0 0 6px rgba(215,25,31,.25)}
+.cel-ikona{width:16px;height:16px;border-radius:50%;background:#2fd36a;border:3px solid #fff}
+
+/* pasek zaufania */
+.zaufanie{background:var(--zielen-c);color:#e8efe8}
+.zaufanie .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:22px 0}
+.zaufanie div{display:flex;gap:12px;align-items:center;font-size:14px;line-height:1.35}
+.zaufanie svg{width:28px;height:28px;flex:0 0 28px;color:#9fd0a4}
+.zaufanie b{color:#fff;display:block}
+
+/* sekcje */
+section{padding:84px 0}
+.tyt{max-width:680px;margin-bottom:40px}
+.tyt h2{font-size:clamp(30px,3.6vw,44px);text-transform:uppercase;color:var(--noc)}
+.tyt p{color:var(--szary);font-size:17px;margin:12px 0 0}
+.tyt .znacznik{color:var(--zielen)}
+
+.uslugi{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.usl{position:relative;border-radius:10px;overflow:hidden;min-height:330px;color:#fff;display:flex;align-items:flex-end;text-decoration:none;isolation:isolate}
+.usl img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .5s var(--ease)}
+.usl::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(12,20,14,.05) 20%,rgba(12,20,14,.88) 78%)}
+.usl:hover img{transform:scale(1.04)}
+.usl div{padding:22px}
+.usl h3{font-size:24px;text-transform:uppercase}
+.usl p{margin:6px 0 10px;font-size:14px;color:#d3dbd4}
+.usl span{font-size:13px;font-weight:600;color:#ff6a6e}
+
+/* konfigurator */
+.konf{background:var(--jasny)}
+.konf-box{display:grid;grid-template-columns:1.05fr .95fr;gap:0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px -30px rgba(12,20,14,.35)}
+.konf-l{padding:34px}
+.pyt{margin-bottom:22px}
+.pyt>span{display:block;font-weight:600;margin-bottom:10px;font-size:15px}
+.opcje{display:flex;flex-wrap:wrap;gap:8px}
+.opcje button{border:1.5px solid var(--linia);background:#fff;border-radius:8px;padding:11px 16px;font:inherit;font-size:14.5px;cursor:pointer;transition:border-color .15s ease,background-color .15s ease}
+.opcje button[aria-pressed=true]{border-color:var(--zielen);background:#eaf2ea;color:var(--zielen-c);font-weight:600}
+.licz{display:flex;align-items:center;gap:14px}
+.licz button{width:42px;height:42px;border-radius:8px;border:1.5px solid var(--linia);background:#fff;font-size:20px;cursor:pointer}
+.licz b{font-family:Oswald,sans-serif;font-size:26px;min-width:28px;text-align:center}
+.konf-p{background:var(--noc2);color:#fff;padding:34px;display:flex;flex-direction:column}
+.konf-p h3{font-size:22px;text-transform:uppercase;margin-bottom:16px}
+.zestaw{list-style:none;margin:0;padding:0;flex:1}
+.zestaw li{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.09);font-size:15px}
+.zestaw li b{font-family:Oswald,sans-serif;font-weight:600;color:#9fd0a4}
+.cena{margin:20px 0 6px;padding:16px;border:1px dashed rgba(255,255,255,.25);border-radius:8px;font-size:14px;color:#c9d3ca}
+.cena b{display:block;font-family:Oswald,sans-serif;font-size:22px;color:#fff;font-weight:600}
+.konf-p .btn{justify-content:center;margin-top:14px}
+
+/* kroki */
+.kroki{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.krok{border:1px solid var(--linia);border-radius:10px;padding:26px}
+.krok b{font-family:Oswald,sans-serif;font-size:42px;color:var(--czerwien);line-height:1}
+.krok h3{font-size:21px;text-transform:uppercase;margin:12px 0 6px}
+.krok p{margin:0;color:var(--szary);font-size:15px}
+
+/* kontakt */
+.kontakt{background:var(--noc);color:#fff}
+.kontakt .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.kontakt h2{font-size:clamp(30px,3.6vw,44px);text-transform:uppercase}
+.kontakt p{color:#b9c4bb}
+.k-lista{display:grid;gap:14px}
+.k-lista a,.k-lista div{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;border:1px solid rgba(255,255,255,.12);border-radius:10px;text-decoration:none}
+.k-lista span{color:#a8b4aa;font-size:13px}
+.k-lista b{font-size:18px}
+.k-lista .al{border-color:var(--czerwien);background:rgba(215,25,31,.1)}
+footer{background:#070c08;color:#7f8b81;font-size:13px;padding:22px 0}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* pasek telefonu na komorce */
+.mob-pasek{display:none}
+
+@media (max-width:980px){
+  nav{display:none}
+  .hero .wrap{grid-template-columns:1fr;padding:44px 0 56px;gap:34px}
+  .zaufanie .wrap{grid-template-columns:1fr 1fr}
+  .uslugi{grid-template-columns:1fr 1fr}
+  .konf-box{grid-template-columns:1fr}
+  .kroki{grid-template-columns:1fr}
+  .kontakt .wrap{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .wrap{width:calc(100% - 32px)}
+  .alarm .wrap>span:last-child{display:none}
+  header .wrap{height:64px}
+  .logo img{height:38px}
+  .tel-head{display:none}
+  .hero p.lead{font-size:16px}
+  .fakty{gap:18px}
+  .fakty b{font-size:22px}
+  .uslugi{grid-template-columns:1fr}
+  .usl{min-height:260px}
+  .zaufanie .wrap{grid-template-columns:1fr;gap:14px}
+  section{padding:60px 0}
+  .konf-l,.konf-p{padding:24px}
+  #mapa{height:240px}
+  .wynik .opis{max-width:55%}
+  body{padding-bottom:64px}
+  .mob-pasek{display:grid;grid-template-columns:1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:60;box-shadow:0 -6px 20px rgba(0,0,0,.2)}
+  .mob-pasek a{display:flex;align-items:center;justify-content:center;gap:8px;padding:17px 8px;font-weight:700;text-decoration:none;font-size:14.5px}
+  .mob-pasek a:first-child{background:var(--czerwien);color:#fff}
+  .mob-pasek a:last-child{background:var(--noc2);color:#fff}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="alarm">
+  <div class="wrap">
+    <span><span class="puls"></span>Centrum alarmowe czynne całą dobę: <a href="tel:+48602196006"><b>602 196 006</b></a></span>
+    <span>Biuro: <a href="tel:+48586724819">58 672 48 19</a> · <a href="mailto:kontakt@sufo.pl">kontakt@sufo.pl</a></span>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#"><img src="img/logo.webp" alt="SUFO Security - ochrona osób i mienia" width="1134" height="572"></a>
+    <nav>
+      <a href="#uslugi">Usługi</a>
+      <a href="#dojazd">Czas dojazdu</a>
+      <a href="#konfigurator">Ochrona domu</a>
+      <a href="#wspolpraca">Współpraca</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="tel-head" href="tel:+48602196006"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>24/7: 602 196 006</a>
+  </div>
+</header>
+
+<div class="hero" id="dojazd">
+  <div class="wrap">
+    <div>
+      <div class="znacznik">Wejherowo i powiat wejherowski</div>
+      <h1>Ochrona osób i mienia, <span>która dojeżdża</span></h1>
+      <p class="lead">Grupy interwencyjne, monitoring alarmów i kamer, ochrona fizyczna i konwojowanie. Specjalistyczna Uzbrojona Formacja Ochronna z koncesją MSWiA.</p>
+      <div class="cta">
+        <a class="btn btn-red" href="tel:+48602196006"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Zadzwoń całą dobę</a>
+        <a class="btn btn-line" href="#konfigurator">Dobierz ochronę domu</a>
+      </div>
+      <div class="fakty">
+        <div><b>24/7</b><span>centrum alarmowe</span></div>
+        <div><b>L-0299/14</b><span>koncesja MSWiA</span></div>
+        <div><b>SUFO</b><span>uzbrojona formacja ochronna</span></div>
+      </div>
+    </div>
+
+    <div class="dojazd">
+      <div class="dojazd-g">
+        <h2><i></i>Sprawdź czas dojazdu</h2>
+        <p>Wpisz adres domu albo firmy. Pokażemy, w ile minut może dojechać do Ciebie grupa interwencyjna.</p>
+        <form class="szukaj" id="szukaj">
+          <input id="adres" type="text" placeholder="np. Rumia, Dębogórska 20" autocomplete="off" aria-label="Adres">
+          <button type="submit">Sprawdź</button>
+        </form>
+        <div class="podp">
+          <button type="button" data-a="Reda, Gdańska">Reda</button>
+          <button type="button" data-a="Rumia, Sobieskiego">Rumia</button>
+          <button type="button" data-a="Luzino">Luzino</button>
+          <button type="button" data-a="Gdynia, Chwarzno">Gdynia Chwarzno</button>
+        </div>
+      </div>
+      <div id="mapa" aria-label="Mapa dojazdu"></div>
+      <div class="wynik">
+        <div class="min" id="minuty">--<small>min</small></div>
+        <div class="opis" id="opis">Wyjazd z bazy przy ul. Sobieskiego w Wejherowie. Czas orientacyjny, liczony według mapy dróg.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="zaufanie">
+  <div class="wrap">
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg><span><b>Koncesja MSWiA</b>nr L-0299/14</span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b>Całą dobę</b>centrum alarmowe i interwencje</span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5"/><circle cx="7" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/></svg><span><b>Grupy interwencyjne</b>szybki dojazd na sygnał alarmu</span></div>
+    <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span><b>Wejherowo i okolice</b>Reda, Rumia, Luzino, Gdynia</span></div>
+  </div>
+</div>
+
+<section id="uslugi">
+  <div class="wrap">
+    <div class="tyt">
+      <div class="znacznik">Usługi</div>
+      <h2>Bezpieczeństwo od alarmu po interwencję</h2>
+      <p>Każda usługa będzie miała osobną podstronę z opisem, zakresem i odpowiedziami na pytania, których ludzie szukają w Google.</p>
+    </div>
+    <div class="uslugi">
+      <a class="usl" href="#"><img src="img/interwencja.webp" alt="" loading="lazy"><div><h3>Grupy interwencyjne</h3><p>Dojazd na sygnał z systemu alarmowego, całą dobę.</p><span>Zobacz więcej →</span></div></a>
+      <a class="usl" href="#"><img src="img/kamera-sufit.webp" alt="" loading="lazy"><div><h3>Ochrona domów i mieszkań</h3><p>Alarm, czujki i powiadomienia w telefonie.</p><span>Zobacz więcej →</span></div></a>
+      <a class="usl" href="#"><img src="img/monitoring.webp" alt="" loading="lazy"><div><h3>Monitoring alarmów</h3><p>Centrum alarmowe odbiera sygnał i wysyła patrol.</p><span>Zobacz więcej →</span></div></a>
+      <a class="usl" href="#"><img src="img/kamery.webp" alt="" loading="lazy"><div><h3>Systemy kamer</h3><p>Montaż i zdalny podgląd kamer dla domów i firm.</p><span>Zobacz więcej →</span></div></a>
+      <a class="usl" href="#"><img src="img/ochrona.webp" alt="" loading="lazy"><div><h3>Konwojowanie wartości</h3><p>Bezpieczny transport gotówki i wartości pieniężnych.</p><span>Zobacz więcej →</span></div></a>
+      <a class="usl" href="#"><img src="img/ochrona-osob.webp" alt="" loading="lazy"><div><h3>Ochrona fizyczna osób</h3><p>Ochrona osób, imprez i obiektów przez licencjonowanych pracowników.</p><span>Zobacz więcej →</span></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="konf" id="konfigurator">
+  <div class="wrap">
+    <div class="tyt">
+      <div class="znacznik">Konfigurator</div>
+      <h2>Dobierz ochronę domu w minutę</h2>
+      <p>Klient zaznacza kilka rzeczy, widzi proponowany zestaw i orientacyjną cenę, a Państwo dostają zapytanie z kompletem danych.</p>
+    </div>
+    <div class="konf-box">
+      <div class="konf-l">
+        <div class="pyt"><span>Co chcesz chronić?</span>
+          <div class="opcje" data-p="obiekt"><button aria-pressed="true" data-v="dom">Dom</button><button aria-pressed="false" data-v="mieszkanie">Mieszkanie</button><button aria-pressed="false" data-v="firma">Firma / sklep</button></div></div>
+        <div class="pyt"><span>Ile jest wejść (drzwi, brama, taras)?</span>
+          <div class="licz"><button type="button" data-d="-1" aria-label="mniej">−</button><b id="wejscia">2</b><button type="button" data-d="1" aria-label="więcej">+</button></div></div>
+        <div class="pyt"><span>Kamery</span>
+          <div class="opcje" data-p="kamery"><button aria-pressed="false" data-v="0">Bez kamer</button><button aria-pressed="true" data-v="2">2 kamery</button><button aria-pressed="false" data-v="4">4 kamery</button></div></div>
+        <div class="pyt" style="margin-bottom:0"><span>Monitoring i dojazd grupy interwencyjnej</span>
+          <div class="opcje" data-p="monitoring"><button aria-pressed="true" data-v="1">Tak, całą dobę</button><button aria-pressed="false" data-v="0">Tylko alarm</button></div></div>
+      </div>
+      <div class="konf-p">
+        <h3>Proponowany zestaw</h3>
+        <ul class="zestaw" id="zestaw"></ul>
+        <div class="cena">Orientacyjna cena<b>według cennika SUFO</b>Na stronie docelowej w tym miejscu pojawi się kwota wyliczona z Państwa cennika.</div>
+        <a class="btn btn-red" href="#kontakt">Wyślij zapytanie z tym zestawem</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="wspolpraca">
+  <div class="wrap">
+    <div class="tyt">
+      <div class="znacznik">Współpraca</div>
+      <h2>Jak zaczynamy</h2>
+    </div>
+    <div class="kroki">
+      <div class="krok"><b>01</b><h3>Wybierz usługę</h3><p>Zadzwoń albo wyślij zapytanie. Doradzimy, jaki zakres ochrony ma sens w Twoim przypadku.</p></div>
+      <div class="krok"><b>02</b><h3>Podpisanie umowy</h3><p>Oględziny, dobór systemu i umowa z jasno opisanym zakresem i ceną.</p></div>
+      <div class="krok"><b>03</b><h3>Realizacja</h3><p>Montaż, podłączenie do centrum alarmowego i ochrona od pierwszego dnia.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="kontakt" id="kontakt">
+  <div class="wrap">
+    <div>
+      <div class="znacznik">Kontakt</div>
+      <h2>Jesteśmy do dyspozycji całą dobę</h2>
+      <p>SUFO Security, ul. Sobieskiego 352/U1, 84-200 Wejherowo</p>
+    </div>
+    <div class="k-lista">
+      <a class="al" href="tel:+48602196006"><span>Centrum alarmowe 24/7</span><b>602 196 006</b></a>
+      <a href="tel:+48586724819"><span>Biuro</span><b>58 672 48 19</b></a>
+      <a href="mailto:kontakt@sufo.pl"><span>E-mail</span><b>kontakt@sufo.pl</b></a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>© 2026 SUFO Security · Koncesja MSWiA nr L-0299/14</span><span>Wizualizacja robocza, teksty i zdjęcia przykładowe</span></div></footer>
+
+<div class="mob-pasek">
+  <a href="tel:+48602196006">Zadzwoń 24/7</a>
+  <a href="#dojazd">Czas dojazdu</a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* mapa i czas dojazdu: geokodowanie Nominatim (OSM), trasa OSRM */
+(function(){
+  const BAZA=[54.60398,18.21371];
+  const mapa=L.map('mapa',{zoomControl:false,attributionControl:true,scrollWheelZoom:false}).setView(BAZA,11);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'© OpenStreetMap'}).addTo(mapa);
+  L.marker(BAZA,{icon:L.divIcon({className:'',html:'<div class="baza-ikona"></div>',iconSize:[18,18],iconAnchor:[9,9]})}).addTo(mapa).bindTooltip('Baza SUFO, Wejherowo');
+  let trasa=null, cel=null;
+  const min=document.getElementById('minuty'), opis=document.getElementById('opis');
+  async function sprawdz(adres){
+    if(!adres.trim())return;
+    min.innerHTML='…<small>min</small>'; opis.textContent='Szukam adresu…';
+    try{
+      const g=await (await fetch('https://nominatim.openstreetmap.org/search?format=json&countrycodes=pl&limit=1&q='+encodeURIComponent(adres+', pomorskie'))).json();
+      if(!g.length){min.innerHTML='--<small>min</small>';opis.textContent='Nie znaleziono adresu. Spróbuj z nazwą miejscowości.';return}
+      const C=[+g[0].lat,+g[0].lon];
+      const r=await (await fetch('https://router.project-osrm.org/route/v1/driving/'+BAZA[1]+','+BAZA[0]+';'+C[1]+','+C[0]+'?overview=full&geometries=geojson')).json();
+      if(!r.routes||!r.routes.length)throw 0;
+      const t=r.routes[0], km=(t.distance/1000).toFixed(1).replace('.',',');
+      const minut=Math.max(1,Math.round(t.duration/60));
+      if(trasa)mapa.removeLayer(trasa); if(cel)mapa.removeLayer(cel);
+      trasa=L.geoJSON(t.geometry,{style:{color:'#ff3b41',weight:5,opacity:.95}}).addTo(mapa);
+      cel=L.marker(C,{icon:L.divIcon({className:'',html:'<div class="cel-ikona"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(mapa);
+      mapa.fitBounds(trasa.getBounds(),{padding:[28,28]});
+      min.innerHTML=minut+'<small>min</small>';
+      opis.textContent=km+' km z bazy w Wejherowie do: '+g[0].display_name.split(',').slice(0,2).join(',')+'. Czas orientacyjny według mapy dróg.';
+    }catch(e){min.innerHTML='--<small>min</small>';opis.textContent='Nie udało się policzyć trasy. Spróbuj za chwilę.'}
+  }
+  document.getElementById('szukaj').addEventListener('submit',e=>{e.preventDefault();sprawdz(document.getElementById('adres').value)});
+  document.querySelectorAll('.podp button').forEach(b=>b.addEventListener('click',()=>{document.getElementById('adres').value=b.dataset.a;sprawdz(b.dataset.a)}));
+})();
+
+/* konfigurator ochrony domu (bez cen - ceny z cennika klienta) */
+(function(){
+  const st={obiekt:'dom',kamery:'2',monitoring:'1',wejscia:2};
+  const lista=document.getElementById('zestaw'), we=document.getElementById('wejscia');
+  function rysuj(){
+    const czujki=st.wejscia+(st.obiekt==='dom'?2:st.obiekt==='firma'?2:1);
+    const poz=[['Centrala alarmowa z powiadomieniem w telefonie','1'],['Czujki ruchu',czujki],['Kontaktrony na drzwi i bramę',st.wejscia],['Sygnalizator zewnętrzny',st.obiekt==='mieszkanie'?'-':'1']];
+    if(st.kamery!=='0')poz.push(['Kamery z podglądem w telefonie',st.kamery]);
+    if(st.monitoring==='1')poz.push(['Monitoring 24/7 i dojazd grupy interwencyjnej','abonament']);
+    lista.innerHTML=poz.filter(p=>p[1]!=='-').map(p=>'<li><span>'+p[0]+'</span><b>'+p[1]+'</b></li>').join('');
+    we.textContent=st.wejscia;
+  }
+  document.querySelectorAll('.opcje').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));st[g.dataset.p]=b.dataset.v;rysuj()}));
+  document.querySelectorAll('.licz button').forEach(b=>b.addEventListener('click',()=>{st.wejscia=Math.min(8,Math.max(1,st.wejscia+ +b.dataset.d));rysuj()}));
+  rysuj();
+})();
+</script>
+</body>
+</html>
