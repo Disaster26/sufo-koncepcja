@@ -91,6 +91,7 @@ h1,h2,h3{font-family:Oswald,Impact,sans-serif;font-weight:600;line-height:1.06;l
 .chipy button{border:1px solid rgba(255,255,255,.16);background:transparent;border-radius:999px;padding:5px 11px;font-size:12.5px;font-weight:600;color:#cfd8d0;cursor:pointer;transition:background-color .15s ease,color .15s ease}
 .chipy button:hover{background:rgba(255,255,255,.08);color:#fff}
 #mapa{height:330px;background:#1a221c}
+#mapa .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) saturate(.35) brightness(.92) contrast(1.05)}
 .wynik{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;padding:16px 20px;background:var(--noc2);border-top:1px solid var(--linia-c);color:#fff}
 .wynik .min{font-family:Oswald,sans-serif;font-size:40px;font-weight:600;line-height:1}
 .wynik .min small{font-size:16px;color:var(--mieta);margin-left:4px}

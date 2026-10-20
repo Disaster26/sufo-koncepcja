@@ -22,7 +22,7 @@
   const box=document.getElementById('mapa'); if(!box||!window.L)return;
   const BAZA=[54.60398,18.21371];
   const mapa=L.map(box,{zoomControl:false,scrollWheelZoom:false,tap:false}).setView([54.585,18.3],10);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd',attribution:'© OpenStreetMap © CARTO'}).addTo(mapa);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(mapa);
   L.control.zoom({position:'bottomright'}).addTo(mapa);
   L.marker(BAZA,{icon:L.divIcon({className:'',html:'<div class="ik-baza"></div>',iconSize:[20,20],iconAnchor:[10,10]})}).addTo(mapa).bindTooltip('Baza SUFO, Wejherowo',{direction:'top'});
   let trasa=null,cel=null;
