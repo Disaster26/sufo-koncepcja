@@ -370,7 +370,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       cel=L.marker(C,{icon:L.divIcon({className:'',html:'<div class="cel-ikona"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(mapa);
       mapa.fitBounds(trasa.getBounds(),{padding:[28,28]});
       min.innerHTML=minut+'<small>min</small>';
-      opis.textContent=km+' km z bazy w Wejherowie do: '+(a=>[a.road,a.city||a.town||a.village||a.municipality].filter(Boolean).join(', '))(g[0].address||{})||g[0].display_name.split(',')[0]+'. Czas orientacyjny według mapy dróg.';
+      opis.textContent=km+' km z bazy w Wejherowie do: '+((a=>[a.road,a.city||a.town||a.village||a.municipality].filter(Boolean).join(', '))(g[0].address||{})||g[0].display_name.split(',')[0])+'. Czas orientacyjny według mapy dróg.';
     }catch(e){min.innerHTML='--<small>min</small>';opis.textContent='Nie udało się policzyć trasy. Spróbuj za chwilę.'}
   }
   document.getElementById('szukaj').addEventListener('submit',e=>{e.preventDefault();sprawdz(document.getElementById('adres').value)});
