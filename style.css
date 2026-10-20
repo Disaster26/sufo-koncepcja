@@ -222,8 +222,7 @@ h1,h2,h3{font-family:Oswald,Impact,sans-serif;font-weight:600;line-height:1.06;l
 .inne a:last-child{border-bottom:0}
 
 /* animacja wejscia */
-.wejscie{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
-.wejscie.widac{opacity:1;transform:none}
+.wejscie{opacity:1}
 .hero .wrap>*,.uslugi>*,.blog>*,.kroki>*,.konf-box>*{min-width:0}
 
 @media (max-width:1060px){
