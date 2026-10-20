@@ -286,3 +286,12 @@ h1,h2,h3{font-family:Oswald,Impact,sans-serif;font-weight:600;line-height:1.06;l
   .art-tlo h1{font-size:clamp(28px,8vw,36px)}
 }
 @media (prefers-reduced-motion:reduce){*,*::after{animation:none!important;transition:none!important}.wejscie{opacity:1;transform:none}}
+
+/* telefon: tekst hero wypelnia caly pierwszy ekran, karta mapy zaczyna sie pod nim (bez urwanej sekcji) */
+@media (max-width:640px){
+  .hero .wrap>div:first-child{min-height:calc(100vh - 64px - 24px);min-height:calc(100svh - 64px - 24px);display:flex;flex-direction:column;justify-content:center;padding-bottom:12px}
+}
+@media (min-width:641px){
+  .hero{min-height:calc(100vh - 108px);min-height:calc(100svh - 108px);display:flex;align-items:center}
+  .hero .wrap{flex:1}
+}
