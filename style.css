@@ -288,10 +288,22 @@ h1,h2,h3{font-family:Oswald,Impact,sans-serif;font-weight:600;line-height:1.06;l
 @media (prefers-reduced-motion:reduce){*,*::after{animation:none!important;transition:none!important}.wejscie{opacity:1;transform:none}}
 
 /* telefon: tekst hero wypelnia caly pierwszy ekran, karta mapy zaczyna sie pod nim (bez urwanej sekcji) */
-@media (max-width:640px){
+@media (max-width:1060px){
   .hero .wrap>div:first-child{min-height:calc(100vh - 64px - 24px);min-height:calc(100svh - 64px - 24px);display:flex;flex-direction:column;justify-content:center;padding-bottom:12px}
 }
-@media (min-width:641px){
+@media (min-width:1061px){
   .hero{min-height:calc(100vh - 108px);min-height:calc(100svh - 108px);display:flex;align-items:center}
   .hero .wrap{flex:1}
+}
+
+@media (max-width:1060px) and (min-width:641px){.hero .wrap>div:first-child{min-height:calc(100vh - 72px - 44px);min-height:calc(100svh - 72px - 44px)}}
+/* niskie ekrany komputerow (np. 1280x720) */
+@media (min-width:1061px) and (max-height:820px){
+  .hero .wrap{padding:24px 0 32px}
+  .hero h1{font-size:clamp(38px,7.2vh,60px);margin-top:10px}
+  .lead{font-size:16.5px;margin-top:12px}
+  .szukaj{margin-top:18px}
+  .hero-cta{margin-top:16px}
+  .fakty{margin-top:22px}
+  #mapa{height:250px}
 }
