@@ -64,13 +64,13 @@ h1,h2,h3{font-family:Archivo,Inter,sans-serif;font-stretch:108%;font-weight:800;
   radial-gradient(900px 480px at 92% -10%,rgba(30,82,51,.13),transparent 60%),
   radial-gradient(600px 300px at -10% 110%,rgba(215,25,31,.06),transparent 60%),var(--tlo)}
 .hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(13,23,17,.09) 1px,transparent 1px);background-size:22px 22px;mask-image:linear-gradient(180deg,rgba(0,0,0,.7),transparent 75%);-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,.7),transparent 75%);pointer-events:none}
-.hero .wrap{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:56px;align-items:center;padding:64px 0 72px}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:center;padding:64px 0 72px}
 .hero h1{font-size:clamp(36px,5.4vw,68px);margin:16px 0 0}
 .hero h1 em{font-style:normal;color:var(--czer);position:relative;white-space:nowrap}
 .lead{font-size:18.5px;color:var(--szary);margin:18px 0 0;max-width:560px}
 .szukaj{margin-top:28px;background:var(--karta);border:1.5px solid var(--linia);border-radius:16px;padding:8px;display:flex;gap:8px;box-shadow:var(--cien);max-width:560px}
 .szukaj label{position:absolute;left:-9999px}
-.szukaj input{flex:1;min-width:0;border:0;padding:0 12px;font:inherit;font-size:16px;background:transparent;color:var(--ink)}
+.szukaj input{flex:1 1 auto;width:100%;min-width:0;border:0;padding:0 12px;font:inherit;font-size:16px;background:transparent;color:var(--ink)}
 .szukaj input:focus{outline:none}
 .szukaj:focus-within{border-color:var(--zielen)}
 .szukaj .btn{min-height:48px;border-radius:10px;padding:0 18px}
@@ -224,7 +224,7 @@ h1,h2,h3{font-family:Archivo,Inter,sans-serif;font-stretch:108%;font-weight:800;
   .ham{display:inline-flex}
   .gora .btn-czer{display:none}
   .tel-ikona{display:inline-flex}
-  .hero .wrap{grid-template-columns:1fr;gap:28px;padding:40px 0 56px}
+  .hero .wrap{grid-template-columns:minmax(0,1fr);gap:28px;padding:40px 0 56px}
   .zaufanie .wrap{grid-template-columns:1fr 1fr}
   .uslugi,.blog{grid-template-columns:1fr 1fr}
   .konf-box{grid-template-columns:1fr}
@@ -274,3 +274,6 @@ h1,h2,h3{font-family:Archivo,Inter,sans-serif;font-stretch:108%;font-weight:800;
   .art-hero{padding-top:28px}
 }
 @media (prefers-reduced-motion:reduce){*,*::after{animation:none!important;transition:none!important}.wejscie{opacity:1;transform:none}}
+
+.hero .wrap>*{min-width:0}
+.uslugi>*,.blog>*,.kroki>*,.konf-box>*{min-width:0}
