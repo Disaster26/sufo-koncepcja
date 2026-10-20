@@ -274,7 +274,9 @@ h1,h2,h3{font-family:Oswald,Impact,sans-serif;font-weight:600;line-height:1.06;l
   .k-lista b{font-size:16.5px}
   .stopka .wrap{grid-template-columns:1fr;gap:24px}
   body{padding-bottom:68px}
-  .mob{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:70;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(11,18,13,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--linia-c)}
+  .mob{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:70;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(11,18,13,.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--linia-c);transform:translateY(110%);transition:transform .3s var(--ease)}
+  .mob.widac{transform:none}
+  .hero-cta{display:none}
   .mob .btn{min-height:50px;font-size:15px;padding:0 10px}
   .tresc{font-size:16.5px}
   .tresc h2{font-size:25px}

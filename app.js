@@ -69,3 +69,10 @@
   document.querySelectorAll('.licz button').forEach(b=>b.addEventListener('click',()=>{st.wejscia=Math.min(8,Math.max(1,st.wejscia+ +b.dataset.d));rysuj()}));
   rysuj();
 })();
+
+/* dolny pasek na telefonie dopiero po przewinieciu za wyszukiwarke z naglowka (bez dublowania na 1. ekranie) */
+(function(){
+  const m=document.querySelector('.mob'), t=document.querySelector('#szukaj')||document.querySelector('.art-tlo');
+  if(!m)return; if(!t||!('IntersectionObserver' in window)){m.classList.add('widac');return}
+  new IntersectionObserver(w=>w.forEach(x=>m.classList.toggle('widac',!x.isIntersecting&&x.boundingClientRect.top<0)),{threshold:0}).observe(t);
+})();
