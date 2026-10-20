@@ -293,7 +293,7 @@ h1,h2,h3{font-family:Oswald,Impact,sans-serif;font-weight:600;line-height:1.06;l
 }
 @media (min-width:1061px){
   .hero{min-height:calc(100vh - 108px);min-height:calc(100svh - 108px);display:flex;align-items:center}
-  .hero .wrap{flex:1}
+  .hero .wrap{width:min(1200px,100% - 48px)}
 }
 
 @media (max-width:1060px) and (min-width:641px){.hero .wrap>div:first-child{min-height:calc(100vh - 72px - 44px);min-height:calc(100svh - 72px - 44px)}}
